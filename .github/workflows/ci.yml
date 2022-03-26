@@ -8,13 +8,21 @@ name: CI
 
 jobs:
   build_and_test:
-    name: Build and Test
     runs-on: ubuntu-latest
+    name: Build and Test
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
+
+      - name: Build
+        run: cargo build
+
+      - name: Formatting
+        run: cargo fmt --check
+
+      - name: Run
+        run: |
+          docker pull ghcr.io/saethlin/miri:latest
+          cargo run -- --jobs=1 --crates=1

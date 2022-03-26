@@ -220,6 +220,7 @@ fn main() {
 
 fn render(crates: &mut [Crate]) {
     for krate in crates.iter_mut() {
+        println!("{:?}", krate);
         let path = format!("logs/{}/{}", krate.name, krate.version);
         if let Ok(output) = fs::read_to_string(&path) {
             krate.status = if output.contains("Undefined Behavior: ") {
